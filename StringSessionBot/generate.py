@@ -96,17 +96,20 @@ async def cancelled(msg):
     elif "/restart" in msg.text:
         await msg.reply("Restarted the Bot!", quote=True, reply_markup=InlineKeyboardMarkup(Data.generate_button))
         return True
+    elif msg.text.startswith("/"):  # Bot Commands
+        await msg.reply("Cancelled the generation process!", quote=True)
+        return True
     else:
         return False
 
 
-@Client.on_message(filters.private & ~filters.forwarded & filters.command(['cancel', 'restart']))
-async def formalities(_, msg):
-    if "/cancel" in msg.text:
-        await msg.reply("Cancelled all the Processes!", quote=True, reply_markup=InlineKeyboardMarkup(Data.generate_button))
-        return True
-    elif "/restart" in msg.text:
-        await msg.reply("Restarted the Bot!", quote=True, reply_markup=InlineKeyboardMarkup(Data.generate_button))
-        return True
-    else:
-        return False
+# @Client.on_message(filters.private & ~filters.forwarded & filters.command(['cancel', 'restart']))
+# async def formalities(_, msg):
+#     if "/cancel" in msg.text:
+#         await msg.reply("Cancelled all the Processes!", quote=True, reply_markup=InlineKeyboardMarkup(Data.generate_button))
+#         return True
+#     elif "/restart" in msg.text:
+#         await msg.reply("Restarted the Bot!", quote=True, reply_markup=InlineKeyboardMarkup(Data.generate_button))
+#         return True
+#     else:
+#         return False
