@@ -1,6 +1,6 @@
 from Data import Data
 from pyrogram import Client
-from pyrogram.types import CallbackQuery, InlineKeyboardMarkup
+from pyrogram.types import CallbackQuery, InlineKeyboardMarkup, InlineKeyboardButton
 from StringSessionBot.generate import generate_session, ERROR_MESSAGE
 
 
@@ -42,8 +42,19 @@ async def _callbacks(bot: Client, callback_query: CallbackQuery):
             reply_markup=InlineKeyboardMarkup(Data.home_buttons),
         )
     elif query == "generate":
+        await callback_query.message.reply(
+            "Please choose the python library you want to generate string session for",
+            reply_markup=InlineKeyboardMarkup([[
+                InlineKeyboardButton("Pyrogram", callback_data="pyrogram"),
+                InlineKeyboardButton("Telethon", callback_data="telethon")
+            ]])
+        )
+    elif query in ["pyrogram", "telethon"]:
         await callback_query.answer()
         try:
-            await generate_session(bot, callback_query.message)
+            if query == "pyrogram":
+                await generate_session(bot, callback_query.message)
+            else:
+                await generate_session(bot, callback_query.message, telethon=True)
         except Exception as e:
             await callback_query.message.reply(ERROR_MESSAGE.format(str(e)))
