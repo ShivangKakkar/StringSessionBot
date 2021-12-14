@@ -1,5 +1,5 @@
-pyrogram~=1.2.9
-Telethon~=1.23.0
+pyrogram~=1.2.20
+Telethon~=1.24.0
 TgCrypto
 SQLAlchemy~=1.4.21
 psycopg2
