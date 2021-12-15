@@ -19,6 +19,7 @@ app = Client(
     plugins=dict(root="StringSessionBot"),
 )
 
+app.storage.SESSION_STRING_FORMAT = ">B?256sQ?"
 
 # Run Bot
 if __name__ == "__main__":
