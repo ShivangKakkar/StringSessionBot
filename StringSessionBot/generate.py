@@ -21,11 +21,6 @@ from telethon.errors import (
     PasswordHashInvalidError
 )
 
-ERROR_MESSAGE = "Oops! An exception occurred! \n\n**Error** : {} " \
-            "\n\nPlease visit @StarkBotsChat if this message doesn't contain any " \
-            "sensitive information and you if want to report this as " \
-            "this error message is not being logged by us!"
-
 
 @Client.on_message(filters.private & ~filters.forwarded & filters.command('generate'))
 async def main(_, msg):
@@ -132,15 +127,3 @@ async def cancelled(msg):
         return True
     else:
         return False
-
-
-# @Client.on_message(filters.private & ~filters.forwarded & filters.command(['cancel', 'restart']))
-# async def formalities(_, msg):
-#     if "/cancel" in msg.text:
-#         await msg.reply("Cancelled all the Processes!", quote=True, reply_markup=InlineKeyboardMarkup(Data.generate_button))
-#         return True
-#     elif "/restart" in msg.text:
-#         await msg.reply("Restarted the Bot!", quote=True, reply_markup=InlineKeyboardMarkup(Data.generate_button))
-#         return True
-#     else:
-#         return False
