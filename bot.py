@@ -1,28 +1,25 @@
-import Config
+import env
 import logging
-from pyromod import listen
 from pyrogram import Client, idle
+from pyromod import listen  # type: ignore
 from pyrogram.errors import ApiIdInvalid, ApiIdPublishedFlood, AccessTokenInvalid
-
 
 logging.basicConfig(
     level=logging.WARNING, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 )
-logging.getLogger("pyrogram").setLevel(logging.WARNING)
-
 
 app = Client(
-    ":memory:",
-    api_id=Config.API_ID,
-    api_hash=Config.API_HASH,
-    bot_token=Config.BOT_TOKEN,
+    "bot",
+    api_id=env.API_ID,
+    api_hash=env.API_HASH,
+    bot_token=env.BOT_TOKEN,
+    in_memory=True,
     plugins=dict(root="StringSessionBot"),
 )
 
-app.storage.SESSION_STRING_FORMAT = ">B?256sQ?"
 
-# Run Bot
 if __name__ == "__main__":
+    print("Starting the bot")
     try:
         app.start()
     except (ApiIdInvalid, ApiIdPublishedFlood):
@@ -30,7 +27,7 @@ if __name__ == "__main__":
     except AccessTokenInvalid:
         raise Exception("Your BOT_TOKEN is not valid.")
     uname = app.get_me().username
-    print(f"@{uname} Started Successfully!")
+    print(f"@{uname} is now running!")
     idle()
     app.stop()
     print("Bot stopped. Alvida!")

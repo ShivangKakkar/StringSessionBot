@@ -3,3 +3,4 @@ __pycache__/
 .gitattributes
 *.pyc
 test.py
+.env

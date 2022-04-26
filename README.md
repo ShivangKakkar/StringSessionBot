@@ -27,7 +27,7 @@ Telegram bot to generate pyrogram and telethon string session.
    ```
 2. Get a DATABASE_URL. If you don't know how, deploy using Heroku Button only or delete database things as it's not a compulsion.
    
-3. Edit `Config.py` and fill the needed variables
+3. Rename `.env.sample` to `.env` and fill the needed variables
 
 4. Enter the directory
    ```markdown
