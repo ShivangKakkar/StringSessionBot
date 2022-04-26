@@ -1,5 +1,5 @@
-git+https://github.com/pyrogram/pyrogram.git
-Telethon
+pyrogram==1.*
+Telethon==1.*
 TgCrypto
 SQLAlchemy
 psycopg2
