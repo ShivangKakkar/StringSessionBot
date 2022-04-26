@@ -1,1 +1,1 @@
-worker: python3 generator.py
+worker: python3 bot.py
