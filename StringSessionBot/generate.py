@@ -41,10 +41,10 @@ buttons_ques = [
     [
         InlineKeyboardButton("Pyrogram v2 [New]", callback_data="pyrogram"),
     ],
-    # [
-    #     InlineKeyboardButton("Pyrogram Bot", callback_data="pyrogram_bot"),
-    #     InlineKeyboardButton("Telethon Bot", callback_data="telethon_bot"),
-    # ],
+    [
+        InlineKeyboardButton("Pyrogram Bot", callback_data="pyrogram_bot"),
+        InlineKeyboardButton("Telethon Bot", callback_data="telethon_bot"),
+    ],
 ]
 
 
@@ -84,10 +84,12 @@ async def generate_session(bot: Client, msg: Message, telethon=False, old_pyro: 
     if await cancelled(phone_number_msg):
         return
     phone_number = phone_number_msg.text
-    await msg.reply("Sending OTP...")
+    if not is_bot:
+        await msg.reply("Sending OTP...")
+    else:
+        await msg.reply("Logging as Bot User...")
     if telethon and is_bot:
         client = TelegramClient(StringSession(), api_id, api_hash)
-        await client.start(bot_token=phone_number)
     elif telethon:
         client = TelegramClient(StringSession(), api_id, api_hash)
     elif is_bot:
@@ -149,6 +151,11 @@ async def generate_session(bot: Client, msg: Message, telethon=False, old_pyro: 
             except (PasswordHashInvalid, PasswordHashInvalidError, PasswordHashInvalid1):
                 await two_step_msg.reply('Invalid Password Provided. Please start generating session again.', quote=True, reply_markup=InlineKeyboardMarkup(Data.generate_button))
                 return
+    else:
+        if telethon:
+            await client.start(bot_token=phone_number)
+        else:
+            await client.sign_in_bot(phone_number)
     if telethon:
         string_session = client.session.save()
     else:
