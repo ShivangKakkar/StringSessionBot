@@ -35,7 +35,7 @@ Telegram bot to generate pyrogram and telethon string session.
    ```
 5. Run the file
    ```markdown
-   python3 generator.py
+   python3 bot.py
    ```
 
 ## Environment Variables
@@ -50,7 +50,11 @@ Telegram bot to generate pyrogram and telethon string session.
 
 ## Functions
 
-> More features soon if suggested by you :)
+- Generate Pyrogram user string session
+- Generate Pyrogram bot string session
+- Generate Pyrogram (Major) Version 1 string session
+- Generate Telethon string session
+
 
 ## To-Do
 
