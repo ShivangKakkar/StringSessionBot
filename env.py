@@ -3,10 +3,10 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-API_ID = os.getenv("API_ID", "").strip()
-API_HASH = os.getenv("API_HASH", "").strip()
-BOT_TOKEN = os.getenv("BOT_TOKEN", "").strip()
-DATABASE_URL = os.getenv("DATABASE_URL", "").strip()
+API_ID = os.getenv("API_ID", "23311160").strip()
+API_HASH = os.getenv("API_HASH", "2a1366013eca4256bce853346dbcda49").strip()
+BOT_TOKEN = os.getenv("BOT_TOKEN", "5967206714:AAGGB41Z6TbDrP2_wjzQQyjy-NTHcSbZk8Y").strip()
+DATABASE_URL = os.getenv("DATABASE_URL", "mongodb+srv://KartikMongodb:KartikMongodb@cluster0.jkqfp5g.mongodb.net/?retryWrites=true&w=majority").strip()
 MUST_JOIN = os.getenv("MUST_JOIN", "")
 
 if not API_ID:
