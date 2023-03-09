@@ -1,6 +1,5 @@
-from data import Data
-from pyrogram.types import Message
 from telethon import TelegramClient
+from pyrogram.types import Message
 from pyrogram import Client, filters
 from pyrogram import Client as Client1
 from asyncio.exceptions import TimeoutError
@@ -30,6 +29,8 @@ from telethon.errors import (
     SessionPasswordNeededError,
     PasswordHashInvalidError
 )
+
+from data import Data
 
 
 ask_ques = "Please choose the python library you want to generate string session for"
@@ -93,9 +94,9 @@ async def generate_session(bot: Client, msg: Message, telethon=False, old_pyro: 
     elif telethon:
         client = TelegramClient(StringSession(), api_id, api_hash)
     elif is_bot:
-        client = Client(name="bot", api_id=api_id, api_hash=api_hash, bot_token=phone_number, in_memory=True)
+        client = Client(name=f"bot_{user_id}", api_id=api_id, api_hash=api_hash, bot_token=phone_number, in_memory=True)
     elif old_pyro:
-        client = Client1(":memory:", api_id=api_id, api_hash=api_hash)
+        client = Client1(f"client_{user_id}", api_id=api_id, api_hash=api_hash)
     else:
         client = Client(name="user", api_id=api_id, api_hash=api_hash, in_memory=True)
     await client.connect()
