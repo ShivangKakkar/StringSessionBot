@@ -1,8 +1,11 @@
 from env import DATABASE_URL
+
+if DATABASE_URL == "":
+    return
+
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, scoped_session
-
 
 def start() -> scoped_session:
     engine = create_engine(DATABASE_URL)
