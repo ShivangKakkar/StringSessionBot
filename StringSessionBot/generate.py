@@ -1,7 +1,6 @@
 from telethon import TelegramClient
 from pyrogram.types import Message
 from pyrogram import Client, filters
-from pyrogram import Client as Client1
 from asyncio.exceptions import TimeoutError
 from telethon.sessions import StringSession
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
@@ -13,14 +12,7 @@ from pyrogram.errors import (
     SessionPasswordNeeded,
     PasswordHashInvalid
 )
-from pyrogram.errors import (
-    ApiIdInvalid as ApiIdInvalid1,
-    PhoneNumberInvalid as PhoneNumberInvalid1,
-    PhoneCodeInvalid as PhoneCodeInvalid1,
-    PhoneCodeExpired as PhoneCodeExpired1,
-    SessionPasswordNeeded as SessionPasswordNeeded1,
-    PasswordHashInvalid as PasswordHashInvalid1
-)
+
 from telethon.errors import (
     ApiIdInvalidError,
     PhoneNumberInvalidError,
@@ -36,11 +28,8 @@ from data import Data
 ask_ques = "Please choose the python library you want to generate string session for"
 buttons_ques = [
     [
-        InlineKeyboardButton("Pyrogram", callback_data="pyrogram1"),
+        InlineKeyboardButton("Pyrogram", callback_data="pyrogram"),
         InlineKeyboardButton("Telethon", callback_data="telethon"),
-    ],
-    [
-        InlineKeyboardButton("Pyrogram v2 [New]", callback_data="pyrogram"),
     ],
     [
         InlineKeyboardButton("Pyrogram Bot", callback_data="pyrogram_bot"),
@@ -95,10 +84,8 @@ async def generate_session(bot: Client, msg: Message, telethon=False, old_pyro: 
         client = TelegramClient(StringSession(), api_id, api_hash)
     elif is_bot:
         client = Client(name=f"bot_{user_id}", api_id=api_id, api_hash=api_hash, bot_token=phone_number, in_memory=True)
-    elif old_pyro:
-        client = Client1(f"client_{user_id}", api_id=api_id, api_hash=api_hash)
     else:
-        client = Client(name="user", api_id=api_id, api_hash=api_hash, in_memory=True)
+        client = Client(name=f"user_{user_id}", api_id=api_id, api_hash=api_hash, in_memory=True)
     await client.connect()
     try:
         code = None
@@ -107,10 +94,10 @@ async def generate_session(bot: Client, msg: Message, telethon=False, old_pyro: 
                 code = await client.send_code_request(phone_number)
             else:
                 code = await client.send_code(phone_number)
-    except (ApiIdInvalid, ApiIdInvalidError, ApiIdInvalid1):
+    except (ApiIdInvalid, ApiIdInvalidError):
         await msg.reply('`API_ID` and `API_HASH` combination is invalid. Please start generating session again.', reply_markup=InlineKeyboardMarkup(Data.generate_button))
         return
-    except (PhoneNumberInvalid, PhoneNumberInvalidError, PhoneNumberInvalid1):
+    except (PhoneNumberInvalid, PhoneNumberInvalidError):
         await msg.reply('`PHONE_NUMBER` is invalid. Please start generating session again.', reply_markup=InlineKeyboardMarkup(Data.generate_button))
         return
     try:
@@ -129,13 +116,13 @@ async def generate_session(bot: Client, msg: Message, telethon=False, old_pyro: 
                 await client.sign_in(phone_number, phone_code, password=None)
             else:
                 await client.sign_in(phone_number, code.phone_code_hash, phone_code)
-        except (PhoneCodeInvalid, PhoneCodeInvalidError, PhoneCodeInvalid1):
+        except (PhoneCodeInvalid, PhoneCodeInvalidError):
             await msg.reply('OTP is invalid. Please start generating session again.', reply_markup=InlineKeyboardMarkup(Data.generate_button))
             return
-        except (PhoneCodeExpired, PhoneCodeExpiredError, PhoneCodeExpired1):
+        except (PhoneCodeExpired, PhoneCodeExpiredError):
             await msg.reply('OTP is expired. Please start generating session again.', reply_markup=InlineKeyboardMarkup(Data.generate_button))
             return
-        except (SessionPasswordNeeded, SessionPasswordNeededError, SessionPasswordNeeded1):
+        except (SessionPasswordNeeded, SessionPasswordNeededError):
             try:
                 two_step_msg = await bot.ask(user_id, 'Your account has enabled two-step verification. Please provide the password.', filters=filters.text, timeout=300)
             except TimeoutError:
@@ -149,7 +136,7 @@ async def generate_session(bot: Client, msg: Message, telethon=False, old_pyro: 
                     await client.check_password(password=password)
                 if await cancelled(api_id_msg):
                     return
-            except (PasswordHashInvalid, PasswordHashInvalidError, PasswordHashInvalid1):
+            except (PasswordHashInvalid, PasswordHashInvalidError):
                 await two_step_msg.reply('Invalid Password Provided. Please start generating session again.', quote=True, reply_markup=InlineKeyboardMarkup(Data.generate_button))
                 return
     else:
