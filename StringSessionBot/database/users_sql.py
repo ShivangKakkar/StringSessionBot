@@ -14,7 +14,7 @@ class Users(BASE):
     user_id = Column(BigInteger, primary_key=True)
 
     def __init__(self, user_id, channels=None):
-        if DATABASE_URL !="":
+        if DATABASE_URL == "":
             return
         self.user_id = user_id
         self.channels = channels
