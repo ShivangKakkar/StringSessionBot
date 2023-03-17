@@ -58,5 +58,5 @@ Framework : [Pyrogram](https://docs.pyrogram.org)
 
 Language : [Python](https://www.python.org)
 
-Developer : @StarkProgrammer
+Developer : @StarkAgent
     """
