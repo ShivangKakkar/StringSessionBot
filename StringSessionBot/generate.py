@@ -43,13 +43,11 @@ async def main(_, msg):
     await msg.reply(ask_ques, reply_markup=InlineKeyboardMarkup(buttons_ques))
 
 
-async def generate_session(bot: Client, msg: Message, telethon=False, old_pyro: bool = False, is_bot: bool = False):
+async def generate_session(bot: Client, msg: Message, telethon=False, is_bot: bool = False):
     if telethon:
         ty = "Telethon"
     else:
-        ty = "Pyrogram"
-        if not old_pyro:
-            ty += " v2"
+        ty = "Pyrogram v2"
     if is_bot:
         ty += " Bot"
     await msg.reply(f"Starting {ty} Session Generation...")
