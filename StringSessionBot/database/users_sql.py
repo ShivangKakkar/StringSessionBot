@@ -5,7 +5,7 @@ from sqlalchemy import Column, BigInteger
 if DATABASE_URL !="":
     from StringSessionBot.database import BASE, SESSION
 else:
-    BASE = "..."
+    BASE = object
 
 
 class Users(BASE):
