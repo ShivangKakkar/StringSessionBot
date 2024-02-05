@@ -10,7 +10,8 @@ from pyrogram.errors import (
     PhoneCodeInvalid,
     PhoneCodeExpired,
     SessionPasswordNeeded,
-    PasswordHashInvalid
+    PasswordHashInvalid,
+    AccessTokenInvalid
 )
 
 from telethon.errors import (
@@ -19,7 +20,8 @@ from telethon.errors import (
     PhoneCodeInvalidError,
     PhoneCodeExpiredError,
     SessionPasswordNeededError,
-    PasswordHashInvalidError
+    PasswordHashInvalidError,
+    AccessTokenInvalidError
 )
 
 from data import Data
@@ -138,10 +140,14 @@ async def generate_session(bot: Client, msg: Message, telethon=False, is_bot: bo
                 await two_step_msg.reply('Invalid Password Provided. Please start generating session again.', quote=True, reply_markup=InlineKeyboardMarkup(Data.generate_button))
                 return
     else:
-        if telethon:
-            await client.start(bot_token=phone_number)
-        else:
-            await client.sign_in_bot(phone_number)
+        try:
+            if telethon:
+                await client.start(bot_token=phone_number)
+            else:
+                await client.sign_in_bot(phone_number)
+        except (AccessTokenInvalid, AccessTokenInvalidError):
+            await msg.reply('`BOT_TOKEN` is invalid. Please start generating session again.', reply_markup=InlineKeyboardMarkup(Data.generate_button))
+            return
     if telethon:
         string_session = client.session.save()
     else:
