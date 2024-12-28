@@ -4,4 +4,4 @@ psycopg2==2.*
 Telethon==1.*
 pyromod==1.5
 TgCrypto==1.*
-pyrogram==2.*
+kurigram
